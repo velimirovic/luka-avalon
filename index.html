@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#120b07">
+  <meta name="description" content="Audio moderator for Avalon – Luka Edition. Pick the player count and variant, then let the narrator guide the night phase.">
+  <title>Avalon · Luka Edition</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M6.6 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L8.1 4.64A1 1 0 0 0 6.6 5.5z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4.2" height="14" rx="1.2" fill="currentColor"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 3.5v4.8h4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  </svg>
+
+  <div class="page">
+    <header class="hero">
+      <p class="hero-kicker">Audio Moderator</p>
+      <figure class="portrait">
+        <span class="portrait-glow" aria-hidden="true"></span>
+        <div class="portrait-arch">
+          <span class="portrait-rays" aria-hidden="true"></span>
+          <img src="img/luka.webp" width="402" height="402" alt="Luka as Merlin">
+        </div>
+        <span class="portrait-gem" aria-hidden="true"></span>
+      </figure>
+      <h1 class="hero-title">Avalon</h1>
+      <span class="sparkle" style="--x:calc(50% - 150px);--y:120px;--s:14px;--d:0s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% + 132px);--y:90px;--s:12px;--d:1.2s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% - 118px);--y:250px;--s:10px;--d:2.1s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% + 120px);--y:230px;--s:16px;--d:0.6s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% - 165px);--y:330px;--s:12px;--d:1.7s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% + 150px);--y:340px;--s:14px;--d:2.6s" aria-hidden="true"></span>
+      <span class="sparkle" style="--x:calc(50% + 40px);--y:300px;--s:10px;--d:3.1s" aria-hidden="true"></span>
+      <div class="scroll"><span>Luka Edition</span></div>
+      <span class="knot-rule" aria-hidden="true"></span>
+      <span class="knot-gem" aria-hidden="true"></span>
+    </header>
+
+    <main class="layout">
+      <!-- SETUP -->
+      <section class="panel" id="setup" aria-labelledby="setup-title">
+        <div class="panel-head">
+          <h2 id="setup-title" class="panel-title"><span class="numeral">I</span> The Table</h2>
+          <p class="lock-hint" id="lockHint" hidden>
+            <svg class="ico"><use href="#i-lock"/></svg> Stop the narration to change the setup
+          </p>
+        </div>
+
+        <fieldset class="field">
+          <legend class="field-label">Number of players</legend>
+          <div class="count-tabs" id="countTabs" role="radiogroup" aria-label="Number of players"></div>
+          <p class="teams" id="teams"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">Variant</legend>
+          <div class="variants" id="variants" role="radiogroup" aria-label="Variant"></div>
+        </fieldset>
+      </section>
+
+      <!-- PLAYER -->
+      <section class="panel panel-player" id="player" aria-labelledby="player-title">
+        <div class="panel-head">
+          <h2 id="player-title" class="panel-title"><span class="numeral">II</span> The Night</h2>
+        </div>
+
+        <div class="now" aria-live="polite">
+          <p class="now-label" id="nowLabel">Ready</p>
+          <h3 class="now-title" id="nowTitle">Gather around the table</h3>
+          <p class="now-desc" id="nowDesc">Press play when everyone is seated. The narrator will guide the night phase.</p>
+        </div>
+
+        <div class="play-wrap">
+          <button class="play-btn" id="playBtn" type="button" aria-label="Play">
+            <span class="play-ring"></span>
+            <svg class="play-ico" id="playIco"><use href="#i-play"/></svg>
+          </button>
+          <span class="play-caption" id="playCaption">Play</span>
+        </div>
+
+        <div class="progress-block">
+          <div class="progress" id="progress" role="slider" tabindex="0"
+               aria-label="Narration progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-segments" id="segments"></div>
+          </div>
+          <div class="times">
+            <span id="timeElapsed">0:00</span>
+            <span class="times-step" id="timeStep"></span>
+            <span id="timeTotal">0:00</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="ctrl" id="restartBtn" type="button" aria-label="Restart from the beginning"><svg class="ico"><use href="#i-restart"/></svg><span>Restart</span></button>
+          <button class="ctrl ctrl-danger" id="stopBtn" type="button" aria-label="Stop"><svg class="ico"><use href="#i-stop"/></svg><span>Stop</span></button>
+        </div>
+
+        <span class="knot-rule" aria-hidden="true"></span>
+        <span class="knot-gem" aria-hidden="true"></span>
+
+        <div class="gap-field">
+          <span class="field-label" id="gapLabel">Pause between steps</span>
+          <div class="seg" id="gapSeg" role="radiogroup" aria-labelledby="gapLabel"></div>
+        </div>
+
+        <p class="error" id="error" role="alert" hidden></p>
+      </section>
+    </main>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
